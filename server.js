@@ -4,13 +4,12 @@ const app = express(); //creates an Express.js application.
 
 app.use(express.json()); //sets up a middleware to parse incoming JSON data into an object.
 
-app.set("path", 3000); //sets up the API server to listen on port 3000.
-
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     next();
 }); //sets up a middleware to enable cross-origin requests by setting the Access-Control-Allow-Origin header to ‘*’, which allows requests from all domains.
 const MongoClient = require("mongodb").MongoClient; // imports the MongoDB Node.js driver, MongoClient.
+app.set("path", 3000); //sets up the API server to listen on port 3000.
 
 let db; //declares a variable to store a reference to the MongoDB database.
 MongoClient.connect(
@@ -22,11 +21,12 @@ MongoClient.connect(
 
 app.use(express.static("public")); //sets up static file serving for the public directory.
 
-
 //req, res, and next. req is the request object, which contains information about the request being made. res is the response object, which is used to send a response back to the client. 
 //next is a function that is used to pass control to the next middleware function in the stack.
 //The "/collection/:collectionName" parameter defines the path of the request
 //collection name placeholder for any collection name
+
+
 app.param("collectionName", (req, res, next, collectionName) => {
     req.collection = db.collection(collectionName);
     return next();
