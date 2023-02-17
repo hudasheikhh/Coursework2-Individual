@@ -9,7 +9,7 @@ app.use((req, res, next) => {
     next();
 }); //sets up a middleware to enable cross-origin requests by setting the Access-Control-Allow-Origin header to ‘*’, which allows requests from all domains.
 const MongoClient = require("mongodb").MongoClient; // imports the MongoDB Node.js driver, MongoClient.
-app.set("path", 3000); //sets up the API server to listen on port 3000.
+app.set("port", 3000); //sets up the API server to listen on port 3000.
 
 let db; //declares a variable to store a reference to the MongoDB database.
 MongoClient.connect(
