@@ -32,6 +32,14 @@ app.param("collectionName", (req, res, next, collectionName) => {
     return next();
 }); //sets up a middleware to store a reference to the MongoDB database collection in the request object.
 
+app.post("/collection/:collectionName", (req, res, next) => {
+    req.collection.insert(req.body, (e, results) => { //req.body which contains the data to be updated
+        if (e) return next(e);
+        res.send(results.ops);
+    });
+    console.log("Order Placed Successfully!");
+}); // Thus method inserts the body of the request into the MongoDB collection as specified by the collectionName parameter, and sends the operation results to the requester. It also logs a message "Order Placed Successfully!" to the console.
+
 
 
 app.get("/collection/:collectionName", (req, res, next) => {
@@ -43,15 +51,14 @@ app.get("/collection/:collectionName", (req, res, next) => {
 }); //It retrieves all the documents from the MongoDB collection as specified by the collectionName parameter and sends them as a response. It also logs a message "Lessons Added" to the console.
 
 
-app.post("/collection/:collectionName", (req, res, next) => {
-    req.collection.insert(req.body, (e, results) => { //req.body which contains the data to be updated
-        if (e) return next(e);
-        res.send(results.ops);
-    });
-    console.log("Order Placed Successfully!");
-}); // Thus method inserts the body of the request into the MongoDB collection as specified by the collectionName parameter, and sends the operation results to the requester. It also logs a message "Order Placed Successfully!" to the console.
-
-
+app.put("/collection/:collectionName/:id", (req, res, next) => {
+    req.collection.update({ _id: new ObjectID(req.params.id) }, { $set: req.body }, { safe: true, multi: false }, // The safe option is set to true which ensures that the update will not be executed unless the update is successful. The multi option is set to false to ensure that only one record is updated.
+        (e, result) => {
+            if (e) return next(e); //
+            res.send(result ? { msg: "success" } : { msg: "error" });
+        }
+    );
+}); // It requests for a particular document in the MongoDB collection. It updates the document as specified by the collectionName and id parameters and the request body, and sends the operation results to the requester.
 
 
 const ObjectID = require("mongodb").ObjectId; // is used to require the ObjectId from the MongoDB module. 
@@ -69,14 +76,7 @@ app.get("/collection/:collectionName/:id", (req, res, next) => {
 
 
 
-app.put("/collection/:collectionName/:id", (req, res, next) => {
-    req.collection.update({ _id: new ObjectID(req.params.id) }, { $set: req.body }, { safe: true, multi: false }, // The safe option is set to true which ensures that the update will not be executed unless the update is successful. The multi option is set to false to ensure that only one record is updated.
-        (e, result) => {
-            if (e) return next(e); //
-            res.send(result ? { msg: "success" } : { msg: "error" });
-        }
-    );
-}); // It requests for a particular document in the MongoDB collection. It updates the document as specified by the collectionName and id parameters and the request body, and sends the operation results to the requester.
+
 
 
 app.delete("/collection/:collectionName/:id", (req, res, next) => {
