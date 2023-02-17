@@ -9,7 +9,7 @@ https://github.com/hudasheikhh/Coursework2-Individual.git
 
 Link to the Pages- 
 
-
+https://hudasheikhh.github.io/Coursework2-Individual/
 
 
 
