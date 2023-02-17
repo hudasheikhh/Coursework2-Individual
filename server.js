@@ -43,7 +43,6 @@ app.get("/collection/:collectionName", (req, res, next) => {
 }); //It retrieves all the documents from the MongoDB collection as specified by the collectionName parameter and sends them as a response. It also logs a message "Lessons Added" to the console.
 
 
-
 app.post("/collection/:collectionName", (req, res, next) => {
     req.collection.insert(req.body, (e, results) => { //req.body which contains the data to be updated
         if (e) return next(e);
