@@ -60,6 +60,15 @@ app.put("/collection/:collectionName/:id", (req, res, next) => {
     );
 }); // It requests for a particular document in the MongoDB collection. It updates the document as specified by the collectionName and id parameters and the request body, and sends the operation results to the requester.
 
+app.delete("/collection/:collectionName/:id", (req, res, next) => {
+    req.collection.deleteOne({ _id: new ObjectID(req.params.id) }, //req.collection object to delete one item from the collection specified in the URL
+        (e, result) => {
+            if (e) return next(e);
+            res.send(result ? { msg: "success" } : { msg: "error" });
+        }
+    );
+}); // It requests for a particular document in the MongoDB collection. It deletes the document as specified by the collectionName and id parameters, and sends the operation results to the requester.
+
 
 const ObjectID = require("mongodb").ObjectId; // is used to require the ObjectId from the MongoDB module. 
 app.get("/collection/:collectionName/:id", (req, res, next) => {
@@ -79,14 +88,7 @@ app.get("/collection/:collectionName/:id", (req, res, next) => {
 
 
 
-app.delete("/collection/:collectionName/:id", (req, res, next) => {
-    req.collection.deleteOne({ _id: new ObjectID(req.params.id) }, //req.collection object to delete one item from the collection specified in the URL
-        (e, result) => {
-            if (e) return next(e);
-            res.send(result ? { msg: "success" } : { msg: "error" });
-        }
-    );
-}); // It requests for a particular document in the MongoDB collection. It deletes the document as specified by the collectionName and id parameters, and sends the operation results to the requester.
+
 
 
 app.listen(3000, () => {
