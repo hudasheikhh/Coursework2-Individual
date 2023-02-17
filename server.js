@@ -85,12 +85,6 @@ app.get("/collection/:collectionName/:id", (req, res, next) => {
 
 
 
-
-
-
-
-
-
 app.listen(3000, () => {
     console.log("Listening on port 3000");
 }); //To listen to port 3000 for incoming requests. It also logs a message "Listening on port 3000" to the console.
